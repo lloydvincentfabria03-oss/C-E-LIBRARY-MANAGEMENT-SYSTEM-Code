@@ -1,0 +1,327 @@
+import java.util.ArrayList;
+import java.util.Scanner;
+import java.time.LocalDate;
+
+class Borrower {
+    String name;
+    String address;
+    String phone;
+    int weeks;
+    int copies;
+    int totalCost;
+    LocalDate borrowDate;
+    LocalDate dueDate;
+
+    Borrower(String name, String address, String phone, int copies, int weeks, int totalCost) {
+        this.name = name;
+        this.address = address;
+        this.phone = phone;
+        this.copies = copies;
+        this.weeks = weeks;
+        this.totalCost = totalCost;
+        this.borrowDate = LocalDate.now();
+        this.dueDate = borrowDate.plusWeeks(weeks);
+    }
+}
+
+class Book {
+    int id;
+    String title;
+    int quantity;
+    ArrayList<Borrower> borrowers = new ArrayList<>();
+
+    Book(int id, String title, int quantity) {
+        this.id = id;
+        this.title = title;
+        this.quantity = quantity;
+    }
+
+    boolean isAvailable() {
+        return quantity > 0;
+    }
+}
+
+public class Main {
+    static ArrayList<Book> books = new ArrayList<>();
+    static Scanner sc = new Scanner(System.in);
+    static int nextId = 1;
+    static final String ADMIN_PASSWORD = "admin123";
+    static final int PRICE_PER_WEEK = 135;
+    static final int OVERDUE_COST_PER_WEEK = 50;
+
+    public static void main(String[] args) {
+        addBookDirect("Java Programming Book 1", 10);
+        addBookDirect("HTML Basics", 5);
+        addBookDirect("Love is Colorblind Book", 25);
+        addBookDirect("Physics 2 Book Edition 1", 20);
+
+        while (true) {
+            System.out.println("--- C&E LIBRARY MANAGEMENT SYSTEM ---");
+            System.out.println("1. Admin");
+            System.out.println("2. Assistant Librarian");
+            System.out.println("3. Exit");
+            System.out.print("Enter choice: ");
+
+            int role = getIntInput();
+
+            switch (role) {
+                case 1:
+                    if (adminLogin()) adminMenu();
+                    break;
+                case 2: registrarMenu(); break;
+                case 3: 
+                    System.out.println("Exiting system...");
+                    return;
+                default: System.out.println("Invalid choice!");
+            }
+        }
+    }
+
+    static boolean adminLogin() {
+        for (int i = 0; i < 3; i++) {
+            System.out.print("Enter admin password: ");
+            String input = sc.nextLine();
+
+            if (input.equals(ADMIN_PASSWORD)) {
+                System.out.println("Access granted!");
+                return true;
+            } else {
+                System.out.println("Wrong password!");
+            }
+        }
+        System.out.println("Too many failed attempts!");
+        return false;
+    }
+
+    static int getIntInput() {
+        while (!sc.hasNextInt()) {
+            System.out.print("Invalid input. Enter a number: ");
+            sc.next();
+        }
+        int value = sc.nextInt();
+        sc.nextLine();
+        return value;
+    }
+
+    static void addBookDirect(String title, int quantity) {
+        books.add(new Book(nextId++, title, quantity));
+    }
+
+    static void adminMenu() {
+        while (true) {
+            System.out.println("\n--- ADMIN MENU ---");
+            System.out.println("1. Add Books");
+            System.out.println("2. Edit Books");
+            System.out.println("3. View Books");
+            System.out.println("4. Remove Books");
+            System.out.println("5. Back");
+            System.out.print("Choice: ");
+
+            int choice = getIntInput();
+
+            switch (choice) {
+                case 1: addBook(); break;
+                case 2: editBook(); break;
+                case 3: viewBooks(); break;
+                case 4: removeBook(); break;
+                case 5: return;
+                default: System.out.println("Invalid choice!");
+            }
+        }
+    }
+
+    static void addBook() {
+        System.out.print("Enter book title: ");
+        String title = sc.nextLine();
+
+        for (Book b : books) {
+            if (b.title.equalsIgnoreCase(title)) {
+                System.out.println("Book already exists! Updating quantity.");
+                System.out.print("Enter quantity to add: ");
+                int qty = getIntInput();
+                b.quantity += qty;
+                return;
+            }
+        }
+
+        System.out.print("Enter quantity: ");
+        int quantity = getIntInput();
+        books.add(new Book(nextId++, title, quantity));
+        System.out.println("Book added successfully!");
+    }
+
+    static void editBook() {
+        viewBooks();
+        System.out.print("Enter Book ID to edit: ");
+        int id = getIntInput();
+
+        for (Book b : books) {
+            if (b.id == id) {
+                System.out.print("Enter new title: ");
+                String newTitle = sc.nextLine();
+                System.out.print("Enter new quantity: ");
+                int newQty = getIntInput();
+                if (newQty < 0) {
+                    System.out.println("Quantity cannot be negative!");
+                    return;
+                }
+                b.title = newTitle;
+                b.quantity = newQty;
+                System.out.println("Book updated successfully!");
+                return;
+            }
+        }
+        System.out.println("Book not found!");
+    }
+
+    static void removeBook() {
+        viewBooks();
+        System.out.print("Enter Book ID to remove: ");
+        int id = getIntInput();
+
+        for (int i = 0; i < books.size(); i++) {
+            if (books.get(i).id == id) {
+                books.remove(i);
+                System.out.println("Book removed successfully!");
+                return;
+            }
+        }
+        System.out.println("Book not found!");
+    }
+
+    static void viewBooks() {
+        if (books.isEmpty()) {
+            System.out.println("No books available.");
+            return;
+        }
+
+        System.out.println("\n=== LIBRARY PRICE LIST ===");
+        System.out.println("Borrow Fee per Week : " + PRICE_PER_WEEK);
+        System.out.println("Overdue Fee per Week: " + OVERDUE_COST_PER_WEEK);
+        System.out.println("===========================");
+
+        System.out.printf("\n%-3s | %-30s | %-3s | %-10s | %s\n", "ID", "TITLE", "QTY", "STATUS", "BORROWERS");
+        System.out.println("-------------------------------------------------------------------------");
+
+        for (Book b : books) {
+            System.out.printf("%-3d | %-30s | %-3d | %-10s | ",
+                    b.id, b.title, b.quantity, b.isAvailable() ? "Available" : "Out");
+
+            if (b.borrowers.isEmpty()) {
+                System.out.println("-");
+            } else {
+                for (Borrower br : b.borrowers) {
+                    long overdueWeeks = Math.max(0, LocalDate.now().until(br.dueDate).getDays() / 7 * -1);
+                    int overdueCost = (int) (overdueWeeks * OVERDUE_COST_PER_WEEK);
+
+                    System.out.printf("%d copies: Name: %s, Address: %s, Phone: %s, Total: %d, Due: %s, Overdue: %d; ",
+                            br.copies, br.name, br.address, br.phone, br.totalCost, br.dueDate, overdueCost);
+                }
+                System.out.println();
+            }
+        }
+    }
+
+    static void registrarMenu() {
+        while (true) {
+            System.out.println("\n--- ASSISTANT LIBRARIAN ---");
+            System.out.println("1. View Books");
+            System.out.println("2. Borrow Books");
+            System.out.println("3. Return Books");
+            System.out.println("4. Back");
+            System.out.print("Choice: ");
+
+            int choice = getIntInput();
+
+            switch (choice) {
+                case 1: viewBooks(); break;
+                case 2: borrowBook(); break;
+                case 3: returnBook(); break;
+                case 4: return;
+                default: System.out.println("Invalid choice!");
+            }
+        }
+    }
+
+    static void borrowBook() {
+        viewBooks();
+        System.out.print("Enter Book ID to borrow: ");
+        int id = getIntInput();
+
+        for (Book b : books) {
+            if (b.id == id) {
+                if (b.quantity > 0) {
+                    System.out.print("Borrower Name: ");
+                    String name = sc.nextLine();
+
+                    System.out.print("Address: ");
+                    String address = sc.nextLine();
+
+                    System.out.print("Phone: ");
+                    String phone = sc.nextLine();
+
+                    System.out.print("Enter number of copies to borrow: ");
+                    int copies = getIntInput();
+
+                    if (copies <= 0 || copies > b.quantity) {
+                        System.out.println("Invalid number of copies!");
+                        return;
+                    }
+
+                    System.out.print("Enter number of weeks: ");
+                    int weeks = getIntInput();
+
+                    int totalCost = copies * weeks * PRICE_PER_WEEK;
+                    b.borrowers.add(new Borrower(name, address, phone, copies, weeks, totalCost));
+                    b.quantity -= copies;
+
+                    System.out.println("Book borrowed successfully!");
+                    System.out.println("Total cost: " + totalCost);
+                } else {
+                    System.out.println("Book is out of stock!");
+                }
+                return;
+            }
+        }
+        System.out.println("Book not found!");
+    }
+
+    static void returnBook() {
+        viewBooks();
+        System.out.print("Enter Book ID to return: ");
+        int id = getIntInput();
+
+        for (Book b : books) {
+            if (b.id == id) {
+
+                if (b.borrowers.isEmpty()) {
+                    System.out.println("This book is not currently borrowed!");
+                    return;
+                }
+
+                System.out.print("Enter borrower name: ");
+                String name = sc.nextLine();
+
+                for (int i = 0; i < b.borrowers.size(); i++) {
+                    if (b.borrowers.get(i).name.equalsIgnoreCase(name)) {
+                        Borrower br = b.borrowers.remove(i);
+
+                        long overdueWeeks = Math.max(0, br.dueDate.until(LocalDate.now()).getDays() / 7);
+                        int overdueCost = (int) (overdueWeeks * OVERDUE_COST_PER_WEEK);
+
+                        b.quantity += br.copies;
+                        System.out.println("Book returned successfully!");
+                        if (overdueCost > 0) {
+                            System.out.println("Overdue fee: " + overdueCost);
+                        }
+                        return;
+                    }
+                }
+
+                System.out.println("Borrower not found!");
+                return;
+            }
+        }
+        System.out.println("Book not found!");
+    }
+}
