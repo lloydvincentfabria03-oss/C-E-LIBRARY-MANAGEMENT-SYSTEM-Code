@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>C&E Library Management System with Inventory Control</title>
+<link rel="stylesheet"  href="style.css">
+</head>
+
+<body>
+    <div class="navbar">
+        <a href="#home" class="nav-link">Home</a>
+        <a href="#about" class="nav-link">About</a>
+        <a href="#books" class="nav-link">Books</a>
+        <a href="#borrow" class="nav-link">Borrow</a>
+        <a href="#contact" class="nav-link">Contact</a> 
+    </div>
+
+<section id="home" class="home">
+    <h1> C&E Library Management System with Inventory Control</h1>
+</section>
+
+<section id="about" class="about">
+    <div class="about-container"> <img src="library.jpg.jpg"
+        alt="Library">
+
+        <div class="about-text">
+            <h2>ABOUT</h2>
+            <p>This C&E Library Management System with Inventory Control helps manage books, 
+                track available copies, and record borrowing and returning transactions.
+                It improves efficiency and reduces manual errors.
+            </p>
+        </div>
+    </div>
+</section>
+
+<section id="books" class="books">
+
+    <div class="buttons">
+        <button onclick="showSection('total')">Total Books</button>
+        <button onclick="showSection('available')">Available Books</button>
+        <button onclick="showSection('borrowed')">Borrowed Books</button>
+    </div>
+
+        <div id="total">
+    <h2 class="section-title">Total Books:</h2>
+    <div class="book-grid">
+
+            <div class="book-card"><img src="book1.jpg"><p><strong>Physics Class IX</strong></p>
+                <p>Author: Dr. S.K Jain</p><p>Quantity: 15 Books</p></div>
+            <div class="book-card"><img src="book2.png"><p><strong>Python Programming for Beginners</strong></p>
+                <p>Author: Acension Programming</p><p>Quantity: 25 Books</p></div>
+            <div class="book-card"><img src="book3.png"><p><strong>The Ulitimate Guide to Python
+                Programming for Beginners</strong></p><p>Author: Codecrafters Publication</p><p>Quantity: 25 Books</p></div>
+            <div class="book-card"><img src="book4.jpg"><p><strong>Java Coding Problems</strong></p><p>Author: Angel Leonard</p>
+                <p>Quantity: 20 Books</p></div>
+            <div class="book-card"><img src="book5.png"><p><strong>In the Midst of the Crowd</strong></p><p>Author: Inksteady</p>
+                <p>Quantity: 15 Books</p></div>
+            <div class="book-card"><img src="book6.png"><p><strong>Mistakes We Can't Laugh About</strong></p>
+                <p>Author: Inksteady</p><p>Quantity: 15 Books</p></div>
+            <div class="book-card"><img src="book7.png"><p><strong>Chasing the Sun</strong></p>
+                <p>Author: Inksteady</p><p>Quantity: 15 Books</p></div>
+            <div class="book-card"><img src="book8.png"><p><strong>Taming The Waves</strong></p>
+                <p>Author: Inksteady</p><p>Quantity: 20 Books</p></div>
+            </div>
+    </div>
+
+    <div id="available" style="display:none">
+        <h2 class="section-title">Available Books:</h2>
+        <div class="book-grid">
+            <div class="book-card"><img src="book1.jpg"><p><strong>Physics Class IX</strong></p>
+            <p>Authot: Dr. S.K Jain</p><p>Available: 14 Books</p><p>Rent: 130PHP/week</p></div>
+            <div class="book-card"><img src="book2.png"><p><strong>Python Programming for Beginners</strong></p>
+            <p>Author: Acension Programming</p><p>Available: 23 Books</p><p>Rent: 130PHP/week</p></div>
+            <div class="book-card"><img src="book3.png"><p><strong>The Ulitimate Guide to Python
+            Programming for Beginners</strong></p><p>Author: Codecrafters Publication</p><p>Available: 25 Book</p>
+            <p>Rent: 130PHP/week</p></div>
+            <div class="book-card"><img src="book4.jpg"><p><strong>Java Coding Problems</strong></p>
+            <p>Author: Anghel Leonard</p><p>Available: 19 Books</p><p>Rent: 130PHP/week</p></div>
+            <div class="book-card"><img src="book5.png"><p><strong>In the Midst of the Crowd</strong></p>
+            <p>Author: Inksteady</p><p>Available: 14 Books</p><p>Rent: 100PHP/week</p></div>
+            <div class="book-card"><img src="book6.png"><p><strong>Mistakes We Can't Laugh About</strong></p>
+            <p>Author: Inksteady</p><p>Available: 13 Books</p><p>Rent: 100PHP/week</p></div>
+            <div class="book-card"><img src="book6.png"><p><strong>Chasing the Sun</strong></p>
+            <p>Author: Inksteady</p><p>Available: 15 Books</p><p>Rent: 100PHP/week</p></div>
+            <div class="book-card"><img src="book8.png"><p><strong>Taming The Waves</strong></p>
+            <p>Author: Inksteady</p><p>Available: 20 Books</p><p>Rent: 100PHP/week</p></div>
+    </div>
+</div>
+
+    <div id="borrowed" style="display:none">
+        <h2 class="section-title">Borrowed Books:</h2>
+
+        <table>
+            <tr>
+                <th>Book Title</th>
+                <th>Borrower</th>
+                <th>Quantity</th>
+                <th>Address</th>
+                <th>Phone Number</th>
+                <th>Date Borrowed</th>
+                <th>Date Return</th>
+            </tr>
+
+            <tr>
+                <td>Java Coding Problems</td>
+                <td>Kathryn Bernardo</td>
+                <td>1</td>
+                <td>Cugman, Cagayan de Oro</td>
+                <td>09069695125</td>
+                <td>March 29, 2026</td>
+                <td>April 5, 2026</td>
+            </tr>
+
+            <tr>
+                <td>Mistakes We Can't Laugh About</td>
+                <td>Juan Dela Cruz</td>
+                <td>1</td>
+                <td>Lapasan, Cagayan de Oro</td>
+                <td>09696759124</td>
+                <td>April 5, 2026</td>
+                <td>April 12, 2026</td>
+            </tr>
+
+            <tr>
+                <td>Physics Class IX</td>
+                <td>Belle Mariano</td>
+                <td>1</td>
+                <td>Gusa, Cagayan de Oro</td>
+                <td>09665630258</td>
+                <td>April 6, 2026</td>
+                <td>April 13, 2026</td>
+            </tr>
+
+            <tr>
+                <td>Mistakes We Can't Laugh About</td>
+                <td>Arthur Nery</td>
+                <td>1</td>
+                <td>Cronin, Cagayan de Oro</td>
+                <td>09568163397</td>
+                <td>April 8, 2026</td>
+                <td>April 15, 2026</td>
+            </tr>
+
+            <tr>
+                <td>Python Programming for Beginners</td>
+                <td>Donny Pangilinan</td>
+                <td>2</td>
+                <td>Camaman-an, Cagayan de Oro</td>
+                <td>09058501409</td>
+                <td>April 8, 2026</td>
+                <td>April 15, 2026</td>
+            </tr>
+
+            <tr>
+                <td>In the Midst of the Crowd</td>
+                <td>Arthur Nery</td>
+                <td>1</td>
+                <td>Cronin, Cagayan de Oro</td>
+                <td>09568163997</td>
+                <td>April 8, 2026</td>
+                <td>April 15, 2026</td>
+            </tr>
+        </table>
+    </div>
+</section>
+
+<section id="borrow" class="borrow">
+    <div class="borrow-box">
+        <h2>BORROW / RETURN</h2>
+        <input type="text" placeholder="Book Title">
+        <input type="text" placeholder="Borrower's Name">
+        <input type="text" placeholder="Quantity">
+        <input type="text" placeholder="Price">
+        <input type="text" placeholder="Address">
+        <input type="text" placeholder="Phone Number">
+        <input type="text" placeholder="Date of Borrowed">
+        <input type="text" placeholder="Date of Returned">
+
+       <div class="buttons">
+        <button type="button" onclick="clearFields()">Borrow</button>
+        <button type="button" onclick="clearFields()">Return</button>
+       </div>
+
+    </div>
+</section>
+
+<section id="contact" class="contact">
+    <div class="contact-container"> <img src="library.jpg.jpg"
+        alt="Library">
+
+        <div class="about-text">
+            <h2>CONTACT US</h2>
+            <p>Email: c&elibrary@gmail.com</p>
+            <p>Facebook Page: C&E Library Management</p>
+            <p>Phone Number: 09669350298</p>
+        </div>
+    </div>
+</section>
+
+<script>
+function showSection(section) {
+    document.getElementById("total").style.display = "none";
+    document.getElementById("available").style.display = "none";
+    document.getElementById("borrowed").style.display = "none";
+    document.getElementById(section).style.display = "block";
+}
+</script>
+
+<script>
+const sections = document.querySelectorAll("section");
+const navLinks = document.querySelectorAll(".nav-link");
+
+window.addEventListener("scroll", () => {
+    let current = "";
+
+    sections.forEach(section => {
+        const sectionTop = section.offsetTop - 100;
+        const sectionHeight = section.clientHeight;
+
+        if (pageYOffset >= sectionTop && pageYOffset < sectionTop + sectionHeight) {
+            current = section.getAttribute("id");
+        }
+    });
+
+    navLinks.forEach(link => {
+        link.classList.remove("active");
+
+        if (link.getAttribute("href") === "#" + current) {
+            link.classList.add("active");
+        }
+    });
+});
+</script>
+
+<script>
+    function clearFields() {
+        document.querySelectorAll('.borrow-box input').forEach(input => {
+            input.value = '';
+        });
+    }
+</script>
+
+</body>
+</html>
